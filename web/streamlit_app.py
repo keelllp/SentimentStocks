@@ -1,457 +1,310 @@
-"""
-Streamlit frontend for Stock Price Prediction Application
-"""
+# ================================================================
+# STREAMLIT STOCK PREDICTION APP - INDIAN STOCKS VERSION
+# ================================================================
 
 import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
-from plotly.subplots import make_subplots
-import joblib
-import os
 from datetime import datetime, timedelta
-import warnings
-warnings.filterwarnings('ignore')
+import yfinance as yf
+import os
+import sys
 
-# Page configuration
+# Page config MUST be the first Streamlit command
 st.set_page_config(
-    page_title="Stock Price Prediction",
-    page_icon="📈",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    page_title="Indian Stock Prediction System",
+    page_icon="",
+    layout="wide"
 )
 
-# Custom CSS
-st.markdown("""
-<style>
-    .main-header {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-        padding: 2rem;
-        border-radius: 10px;
-        color: white;
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-    .metric-card {
-        background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
-        padding: 1rem;
-        border-radius: 10px;
-        color: white;
-        text-align: center;
-    }
-    .prediction-result {
-        background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
-        padding: 1.5rem;
-        border-radius: 15px;
-        color: white;
-        text-align: center;
-        margin: 1rem 0;
-    }
-    .stButton > button {
-        background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
-        color: white;
-        border: none;
-        border-radius: 25px;
-        padding: 0.5rem 2rem;
-        font-weight: bold;
-    }
-</style>
-""", unsafe_allow_html=True)
+# Import production_predictor from the same directory
+try:
+    from production_predictor import StockPredictionSystem
+    st.success("✅ Production predictor imported successfully!")
+except Exception as e:
+    st.error(f"❌ Error importing production predictor: {e}")
+    st.stop()
 
-# Global variables
-models = {}
-scaler = None
-feature_names = None
-
-def load_models():
-    """Load trained models and scaler"""
-    global models, scaler, feature_names
-    
-    models_dir = "../models"
-    
+# Initialize prediction system
+@st.cache_resource
+def load_model():
     try:
-        # Load XGBoost model
-        xgb_path = os.path.join(models_dir, "stock_predictor_xgboost.pkl")
-        if os.path.exists(xgb_path):
-            models['xgboost'] = joblib.load(xgb_path)
-            st.success("✅ XGBoost model loaded successfully")
+        # Fix the path: go up ONE directory from web/ to reach the root, then into models/
+        current_dir = os.path.dirname(os.path.abspath(__file__))  # web/
+        root_dir = os.path.dirname(current_dir)  # project root
+        models_dir = os.path.join(root_dir, "models")
+        models_dir = os.path.abspath(models_dir)  # Resolve the relative path
         
-        # Load LightGBM model
-        lgb_path = os.path.join(models_dir, "stock_predictor_lightgbm.pkl")
-        if os.path.exists(lgb_path):
-            models['lightgbm'] = joblib.load(lgb_path)
-            st.success("✅ LightGBM model loaded successfully")
+        print(f"[DEBUG] Current directory: {current_dir}")
+        print(f"[DEBUG] Root directory: {root_dir}")
+        print(f"[DEBUG] Models directory: {models_dir}")
         
-        # Load scaler
-        scaler_path = os.path.join(models_dir, "stock_predictor_scaler.pkl")
-        if os.path.exists(scaler_path):
-            scaler = joblib.load(scaler_path)
-            st.success("✅ Scaler loaded successfully")
+        st.info(f"[INFO] Looking for models in: {models_dir}")
         
-        # Load feature names
-        features_path = os.path.join(models_dir, "stock_predictor_features.pkl")
-        if os.path.exists(features_path):
-            feature_names = joblib.load(features_path)
-            st.success("✅ Feature names loaded successfully")
-        
-        return len(models) > 0 and scaler is not None and feature_names is not None
-        
-    except Exception as e:
-        st.error(f"❌ Error loading models: {e}")
-        return False
-
-def get_available_stocks():
-    """Get list of available stocks"""
-    try:
-        stock_dir = "../data/stock_data"
-        if not os.path.exists(stock_dir):
-            return []
-        
-        stock_files = [f.replace('.csv', '') for f in os.listdir(stock_dir) 
-                      if f.endswith('.csv')]
-        return stock_files
-        
-    except Exception as e:
-        st.error(f"Error loading stocks: {e}")
-        return []
-
-def load_stock_data(stock_symbol):
-    """Load stock data for visualization"""
-    try:
-        stock_path = f"../data/stock_data/{stock_symbol}.csv"
-        if not os.path.exists(stock_path):
+        if not os.path.exists(models_dir):
+            st.error(f"[ERROR] Models directory not found at: {models_dir}")
+            return None
+            
+        if not os.path.exists(os.path.join(models_dir, "complete_ensemble_model.joblib")):
+            st.error(f"[ERROR] Model file not found at: {os.path.join(models_dir, 'complete_ensemble_model.joblib')}")
             return None
         
-        df = pd.read_csv(stock_path)
-        df['Date'] = pd.to_datetime(df['Date'])
-        return df
-        
+        predictor = StockPredictionSystem(models_dir=models_dir)
+        return predictor
     except Exception as e:
-        st.error(f"Error loading stock data: {e}")
+        st.error(f"[ERROR] Error loading model: {e}")
+        st.error(f"Current working directory: {os.getcwd()}")
+        st.error(f"File location: {os.path.abspath(__file__)}")
         return None
 
-def prepare_features(stock_data):
-    """Prepare features for prediction"""
-    try:
-        # This is a simplified feature preparation
-        # In a real application, you would use the same feature engineering pipeline
-        
-        features = {}
-        
-        # Basic price features
-        features['Close'] = stock_data['Close'].iloc[-1]
-        features['Open'] = stock_data['Open'].iloc[-1]
-        features['High'] = stock_data['High'].iloc[-1]
-        features['Low'] = stock_data['Low'].iloc[-1]
-        
-        # Moving averages
-        features['ma_5'] = stock_data['Close'].rolling(5).mean().iloc[-1]
-        features['ma_20'] = stock_data['Close'].rolling(20).mean().iloc[-1]
-        
-        # Price changes
-        features['price_change_1d'] = stock_data['Close'].pct_change().iloc[-1]
-        features['price_change_5d'] = stock_data['Close'].pct_change(5).iloc[-1]
-        
-        # Volatility
-        features['volatility_5d'] = stock_data['Close'].pct_change().rolling(5).std().iloc[-1]
-        
-        # Volume features (if available)
-        if 'Volume' in stock_data.columns:
-            features['volume'] = stock_data['Volume'].iloc[-1]
-            features['volume_ma_5'] = stock_data['Volume'].rolling(5).mean().iloc[-1]
-        else:
-            features['volume'] = 1000  # Default value
-            features['volume_ma_5'] = 1000
-        
-        # Time features
-        today = datetime.now()
-        features['day_of_week'] = today.weekday()
-        features['month'] = today.month
-        features['quarter'] = (today.month - 1) // 3 + 1
-        
-        # Create feature vector
-        feature_vector = []
-        for feature_name in feature_names:
-            if feature_name in features:
-                feature_vector.append(features[feature_name])
-            else:
-                feature_vector.append(0.0)  # Default value for missing features
-        
-        return np.array(feature_vector).reshape(1, -1)
-        
-    except Exception as e:
-        st.error(f"Error preparing features: {e}")
-        return None
-
-def make_prediction(features, model_type):
-    """Make prediction using loaded models"""
-    try:
-        # Scale features
-        features_scaled = scaler.transform(features)
-        
-        if model_type == 'xgboost' and 'xgboost' in models:
-            prediction = models['xgboost'].predict(features_scaled)[0]
-        elif model_type == 'lightgbm' and 'lightgbm' in models:
-            prediction = models['lightgbm'].predict(features_scaled)[0]
-        elif model_type == 'ensemble' and len(models) > 1:
-            # Ensemble prediction
-            predictions = []
-            for model in models.values():
-                pred = model.predict(features_scaled)[0]
-                predictions.append(pred)
-            prediction = np.mean(predictions)
-        else:
-            # Use first available model
-            model_name = list(models.keys())[0]
-            prediction = models[model_name].predict(features_scaled)[0]
-        
-        return max(0, prediction)  # Ensure non-negative price
-        
-    except Exception as e:
-        st.error(f"Error making prediction: {e}")
-        return None
-
-def create_stock_chart(df):
-    """Create interactive stock price chart"""
-    fig = make_subplots(
-        rows=2, cols=1,
-        shared_xaxes=True,
-        vertical_spacing=0.03,
-        subplot_titles=('Stock Price', 'Volume'),
-        row_width=[0.7, 0.3]
-    )
-    
-    # Price chart
-    fig.add_trace(
-        go.Scatter(
-            x=df['Date'],
-            y=df['Close'],
-            mode='lines',
-            name='Close Price',
-            line=dict(color='#74b9ff', width=2)
-        ),
-        row=1, col=1
-    )
-    
-    # Add moving averages
-    if len(df) >= 5:
-        fig.add_trace(
-            go.Scatter(
-                x=df['Date'],
-                y=df['Close'].rolling(5).mean(),
-                mode='lines',
-                name='MA 5',
-                line=dict(color='#e17055', width=1, dash='dash')
-            ),
-            row=1, col=1
-        )
-    
-    if len(df) >= 20:
-        fig.add_trace(
-            go.Scatter(
-                x=df['Date'],
-                y=df['Close'].rolling(20).mean(),
-                mode='lines',
-                name='MA 20',
-                line=dict(color='#00b894', width=1, dash='dash')
-            ),
-            row=1, col=1
-        )
-    
-    # Volume chart
-    if 'Volume' in df.columns:
-        fig.add_trace(
-            go.Bar(
-                x=df['Date'],
-                y=df['Volume'],
-                name='Volume',
-                marker_color='rgba(116, 185, 255, 0.5)'
-            ),
-            row=2, col=1
-        )
-    
-    fig.update_layout(
-        title='Stock Price and Volume',
-        xaxis_rangeslider_visible=False,
-        height=600,
-        showlegend=True
-    )
-    
-    return fig
-
+# Main app
 def main():
-    """Main application"""
+    st.title("🚀 Indian Stock Prediction System")
+    st.markdown("**AI-Powered Stock Price Predictions using Ensemble Machine Learning**")
+    st.info("💡 This model was trained on Indian stock data (NSE stocks)")
     
-    # Header
-    st.markdown("""
-    <div class="main-header">
-        <h1>📈 Stock Price Prediction</h1>
-        <p>AI-powered stock price prediction using sentiment analysis and technical indicators</p>
-    </div>
-    """, unsafe_allow_html=True)
+    # Load model
+    predictor = load_model()
+    if predictor is None:
+        st.error("❌ Could not load prediction model. Please check the models folder.")
+        return
+    
+    st.success("✅ Model loaded successfully!")
     
     # Sidebar
-    st.sidebar.title("🔧 Settings")
+    st.sidebar.header(" Stock Selection")
     
-    # Model loading
-    st.sidebar.header("Model Status")
-    if st.sidebar.button("Load Models"):
-        with st.spinner("Loading models..."):
-            models_loaded = load_models()
-            if models_loaded:
-                st.sidebar.success("All models loaded successfully!")
-            else:
-                st.sidebar.error("Failed to load some models")
+    # Indian stock symbols your model was trained on
+    indian_stocks = {
+        "ADANIENT.NS": "Adani Enterprises",
+        "BHARTIARTL.NS": "Bharti Airtel", 
+        "HCLTECH.NS": "HCL Technologies",
+        "HDFCBANK.NS": "HDFC Bank",
+        "ICICIBANK.NS": "ICICI Bank",
+        "INFY.NS": "Infosys",
+        "SBIN.NS": "State Bank of India",
+        "TATASTEEL.NS": "Tata Steel"
+    }
     
-    # Check model status
-    models_loaded = len(models) > 0 and scaler is not None and feature_names is not None
-    if models_loaded:
-        st.sidebar.success("✅ Models Ready")
-    else:
-        st.sidebar.warning("⚠️ Models Not Loaded")
+    # Stock symbol input
+    stock_symbol = st.sidebar.selectbox(
+        "Select Indian Stock",
+        options=list(indian_stocks.keys()),
+        format_func=lambda x: f"{x} ({indian_stocks[x]})",
+        help="These are the stocks your model was trained on"
+    )
+    
+    # Quick buttons for popular stocks
+    st.sidebar.subheader(" Quick Selection")
+    col1, col2 = st.sidebar.columns(2)
+    with col1:
+        if st.button("INFY"):
+            stock_symbol = "INFY.NS"
+    with col2:
+        if st.button("HDFC"):
+            stock_symbol = "HDFCBANK.NS"
+    
+    # Date selection
+    st.sidebar.subheader("📅 Date Range")
+    end_date = datetime.now().date()
+    start_date = end_date - timedelta(days=365)
+    
+    start_date_input = st.sidebar.date_input("Start Date", value=start_date)
+    end_date_input = st.sidebar.date_input("End Date", value=end_date)
     
     # Main content
-    col1, col2 = st.columns([1, 1])
-    
-    with col1:
-        st.header("📊 Stock Selection")
+    if stock_symbol:
+        st.subheader(f"📊 Stock Data for: {stock_symbol} ({indian_stocks[stock_symbol]})")
         
-        # Get available stocks
-        available_stocks = get_available_stocks()
-        
-        if available_stocks:
-            selected_stock = st.selectbox(
-                "Choose a stock:",
-                available_stocks,
-                index=0 if available_stocks else None
-            )
-            
-            if selected_stock:
-                # Load stock data
-                stock_data = load_stock_data(selected_stock)
-                
-                if stock_data is not None:
-                    # Display stock info
-                    current_price = stock_data['Close'].iloc[-1]
-                    price_change = stock_data['Close'].iloc[-1] - stock_data['Close'].iloc[-2]
-                    price_change_pct = (price_change / stock_data['Close'].iloc[-2]) * 100
-                    
-                    # Metrics
-                    col1_1, col1_2, col1_3 = st.columns(3)
-                    
-                    with col1_1:
-                        st.metric(
-                            "Current Price",
-                            f"₹{current_price:.2f}",
-                            f"{price_change:+.2f} ({price_change_pct:+.2f}%)"
-                        )
-                    
-                    with col1_2:
-                        st.metric(
-                            "52 Week High",
-                            f"₹{stock_data['High'].max():.2f}"
-                        )
-                    
-                    with col1_3:
-                        st.metric(
-                            "52 Week Low",
-                            f"₹{stock_data['Low'].min():.2f}"
-                        )
-                    
-                    # Stock chart
-                    st.plotly_chart(create_stock_chart(stock_data), use_container_width=True)
-                    
-                else:
-                    st.error("Failed to load stock data")
-        else:
-            st.warning("No stock data available")
-    
-    with col2:
-        st.header("🔮 Price Prediction")
-        
-        if not models_loaded:
-            st.warning("Please load models first to make predictions")
-            return
-        
-        # Prediction form
-        with st.form("prediction_form"):
-            # Stock selection (if not already selected)
-            if 'selected_stock' not in locals():
-                selected_stock = st.selectbox(
-                    "Select stock for prediction:",
-                    available_stocks if available_stocks else []
+        # Fetch stock data
+        try:
+            with st.spinner("📊 Fetching stock data..."):
+                stock_data = yf.download(
+                    stock_symbol,
+                    start=start_date_input,
+                    end=end_date_input,
+                    progress=False
                 )
             
-            # Model selection
-            model_type = st.selectbox(
-                "Choose model:",
-                ['ensemble', 'xgboost', 'lightgbm'],
-                index=0,
-                help="Ensemble combines both models for better accuracy"
+            if stock_data.empty:
+                st.error(f"❌ No data found for {stock_symbol}")
+                st.write("**This might be due to:**")
+                st.write("- Market holidays")
+                st.write("- Data provider issues")
+                st.write("- Try a different date range")
+                return
+            
+                        # Display basic info
+            col1, col2, col3, col4 = st.columns(4)
+            
+            with col1:
+                try:
+                    current_price = float(stock_data['Close'].iloc[-1])
+                    st.metric("Current Price", f"₹{current_price:.2f}")
+                except:
+                    st.metric("Current Price", "N/A")
+            
+            with col2:
+                try:
+                    if len(stock_data) > 1:
+                        change = float(stock_data['Close'].iloc[-1]) - float(stock_data['Close'].iloc[-2])
+                        change_pct = (change / float(stock_data['Close'].iloc[-2])) * 100
+                        st.metric("Daily Change", f"₹{change:.2f}", f"{change_pct:.2f}%")
+                    else:
+                        st.metric("Daily Change", "N/A")
+                except:
+                    st.metric("Daily Change", "N/A")
+            
+            with col3:
+                try:
+                    volume = int(stock_data['Volume'].iloc[-1])
+                    st.metric("Volume", f"{volume:,}")
+                except:
+                    st.metric("Volume", "N/A")
+            
+            with col4:
+                st.metric("Data Points", len(stock_data))
+            
+            # Price chart
+            st.subheader("📈 Stock Price Chart")
+            
+            fig = go.Figure()
+            fig.add_trace(go.Scatter(
+                x=stock_data.index,
+                y=stock_data['Close'],
+                mode='lines',
+                name='Close Price',
+                line=dict(color='blue', width=2)
+            ))
+            
+            fig.update_layout(
+                title=f"{stock_symbol} Stock Price",
+                xaxis_title="Date",
+                yaxis_title="Price (₹)",
+                height=500,
+                showlegend=True
             )
             
-            # Prediction button
-            predict_button = st.form_submit_button("🚀 Predict Price")
+            st.plotly_chart(fig, use_container_width=True)
             
-            if predict_button and selected_stock:
-                with st.spinner("Making prediction..."):
-                    # Load stock data
-                    stock_data = load_stock_data(selected_stock)
-                    
-                    if stock_data is not None:
-                        # Prepare features
-                        features = prepare_features(stock_data)
+            # Prediction button
+            if st.button("🔮 Make Prediction", type="primary"):
+                with st.spinner(" Making predictions..."):
+                    try:
+                        # Get prediction
+                        st.info("🔮 Getting AI prediction...")
+                        st.write(f"Stock data shape: {stock_data.shape}")
+                        st.write(f"Stock data columns: {list(stock_data.columns)}")
                         
-                        if features is not None:
-                            # Make prediction
-                            prediction = make_prediction(features, model_type)
-                            
-                            if prediction is not None:
-                                # Display results
-                                current_price = stock_data['Close'].iloc[-1]
-                                price_change = prediction - current_price
-                                price_change_pct = (price_change / current_price) * 100
-                                
-                                st.markdown(f"""
-                                <div class="prediction-result">
-                                    <h3>🎯 Prediction Results</h3>
-                                    <h2>₹{prediction:.2f}</h2>
-                                    <p>Current: ₹{current_price:.2f}</p>
-                                    <p>Change: ₹{price_change:+.2f} ({price_change_pct:+.2f}%)</p>
-                                    <p><small>Model: {model_type.upper()} | Date: {(datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')}</small></p>
-                                </div>
-                                """, unsafe_allow_html=True)
-                                
-                                # Additional insights
-                                st.subheader("📈 Insights")
-                                
-                                if price_change > 0:
-                                    st.success("📈 Bullish prediction - Stock expected to rise")
-                                else:
-                                    st.error("📉 Bearish prediction - Stock expected to fall")
-                                
-                                # Model confidence (simplified)
-                                if model_type == 'ensemble':
-                                    st.info("🎯 Ensemble model provides more stable predictions")
-                                else:
-                                    st.info(f"🎯 Using {model_type.upper()} model for prediction")
-                                
-                            else:
-                                st.error("Failed to make prediction")
+                        # Handle multi-level column names from yfinance BEFORE calling prediction
+                        if isinstance(stock_data.columns, pd.MultiIndex):
+                            st.info("🔄 Flattening multi-level columns from yfinance...")
+                            stock_data = stock_data.copy()
+                            stock_data.columns = stock_data.columns.get_level_values(0)
+                            st.write(f"After flattening columns: {list(stock_data.columns)}")
+                        
+                        recommendation = predictor.get_stock_recommendation(stock_data)
+                        
+                        st.write(f"Recommendation result: {recommendation}")
+                        st.write(f"Recommendation type: {type(recommendation)}")
+                        
+                        if recommendation is None:
+                            st.error("❌ get_stock_recommendation returned None!")
+                            st.write("This means there was an error in the prediction system.")
+                            st.write("Check the console/terminal for debug information.")
+                            return
+                        
+                        # Display results
+                        st.subheader("🎯 AI Prediction Results")
+                        
+                        # Basic recommendation
+                        col1, col2 = st.columns(2)
+                        
+                        with col1:
+                            st.info(f"**Recommendation: {recommendation['recommendation']}**")
+                            st.write(f"**Reasoning:** {recommendation['reasoning']}")
+                        
+                        with col2:
+                            st.write(f"**Prediction Date:** {recommendation['price_prediction']['prediction_date']}")
+                            st.write(f"**Confidence:** {recommendation['price_prediction']['confidence']:.2f}")
+                        
+                        # Price details
+                        st.subheader("💰 Price Prediction Details")
+                        
+                        col1, col2, col3, col4 = st.columns(4)
+                        
+                        with col1:
+                            st.metric("Current Price", f"₹{stock_data['Close'].iloc[-1]:.2f}")
+                        
+                        with col2:
+                            predicted_price = recommendation['price_prediction']['predicted_price']
+                            st.metric("Predicted Price", f"₹{predicted_price:.2f}")
+                        
+                        with col3:
+                            price_change = predicted_price - stock_data['Close'].iloc[-1]
+                            st.metric("Expected Change", f"₹{price_change:.2f}")
+                        
+                        with col4:
+                            change_pct = (price_change / stock_data['Close'].iloc[-1]) * 100
+                            st.metric("Change %", f"{change_pct:.2f}%")
+                        
+                        # Model comparison
+                        st.subheader("🤖 Model Predictions")
+                        
+                        model_predictions = recommendation['price_prediction']['model_predictions']
+                        model_df = pd.DataFrame([
+                            {'Model': model, 'Prediction': pred}
+                            for model, pred in model_predictions.items()
+                        ])
+                        
+                        fig = px.bar(
+                            model_df,
+                            x='Model',
+                            y='Prediction',
+                            title="Individual Model Predictions",
+                            color='Model'
+                        )
+                        
+                        st.plotly_chart(fig, use_container_width=True)
+                        
+                        # Direction
+                        st.subheader("📊 Direction Prediction")
+                        
+                        direction = recommendation['direction_prediction']
+                        
+                        if direction['direction'] == "UP":
+                            st.success(f"📈 **Direction: {direction['direction']}**")
                         else:
-                            st.error("Failed to prepare features")
-                    else:
-                        st.error("Failed to load stock data")
+                            st.error(f"📉 **Direction: {direction['direction']}**")
+                        
+                        col1, col2 = st.columns(2)
+                        
+                        with col1:
+                            st.write(f"**Expected Change:** {direction['change_percent']:.2f}%")
+                            st.write(f"**Current Price:** ₹{direction['current_price']:.2f}")
+                        
+                        with col2:
+                            st.write(f"**Predicted Price:** ₹{direction['predicted_price']:.2f}")
+                        
+                    except Exception as e:
+                        st.error(f"❌ Error making prediction: {e}")
+                        st.write("**Debug info:**")
+                        st.write(f"- Stock data shape: {stock_data.shape}")
+                        st.write(f"- Error: {str(e)}")
+        
+        except Exception as e:
+            st.error(f"❌ Error fetching data: {e}")
+            st.write("**Try these solutions:**")
+            st.write("1. Check your internet connection")
+            st.write("2. Try a different date range")
+            st.write("3. The stock might be on holiday")
     
     # Footer
     st.markdown("---")
-    st.markdown("""
-    <div style="text-align: center; color: #666;">
-        <p>Built with ❤️ using Streamlit, XGBoost, and LightGBM</p>
-        <p>Data: Yahoo Finance | Sentiment: Twitter Analysis</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("**Built with Streamlit, Plotly, and Ensemble Machine Learning**")
+    st.markdown("**Trained on Indian Stock Market Data (NSE)**")
 
 if __name__ == "__main__":
     main()
