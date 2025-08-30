@@ -114,9 +114,48 @@ def main():
     start_date_input = st.sidebar.date_input("Start Date", value=start_date)
     end_date_input = st.sidebar.date_input("End Date", value=end_date)
     
+    # Future prediction section
+    st.sidebar.subheader("🔮 Future Prediction")
+    st.sidebar.info("💡 Start date is needed because the AI model requires historical data to create technical indicators (moving averages, RSI, etc.)")
+    
+    # Days into future to predict
+    future_days = st.sidebar.slider(
+        "Days into Future to Predict", 
+        min_value=1, 
+        max_value=30, 
+        value=1,
+        help="How many days ahead do you want to predict? (1-30 days)"
+    )
+    
+    # Prediction target date
+    target_date = end_date + timedelta(days=future_days)
+    st.sidebar.success(f"🎯 Predicting for: {target_date}")
+    
     # Main content
     if stock_symbol:
         st.subheader(f"📊 Stock Data for: {stock_symbol} ({indian_stocks[stock_symbol]})")
+        
+        # Explain why start date is needed
+        with st.expander("ℹ️ Why do I need a start date?"):
+            st.write("""
+            **The AI model needs historical data to make predictions because:**
+            
+            🎯 **Technical Indicators**: 
+            - Moving averages (3-day, 5-day, 10-day, 20-day, 50-day)
+            - RSI, Bollinger Bands, volatility measures
+            - Price momentum and trend analysis
+            
+            📊 **Feature Engineering**:
+            - Price changes over different time periods
+            - Volume analysis and patterns
+            - Market sentiment indicators
+            
+            ⏰ **Minimum Requirements**:
+            - At least 50+ days of data for reliable features
+            - More data = better feature quality = better predictions
+            
+            **Think of it like this**: You can't predict tomorrow's weather without knowing today's and yesterday's weather patterns!
+            """)
         
         # Fetch stock data
         try:
@@ -218,6 +257,9 @@ def main():
                         
                         # Display results
                         st.subheader("🎯 AI Prediction Results")
+                        
+                        # Show prediction target
+                        st.success(f"🔮 **Predicting price for: {target_date}** ({future_days} days from today)")
                         
                         # Basic recommendation
                         col1, col2 = st.columns(2)
