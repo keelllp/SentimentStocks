@@ -1,0 +1,2 @@
+finnhub=d2pj8s9r01qnf9nlat80d2pj8s9r01qnf9nlat8g
+alpha vantage=C41AHGVK4R014QF9
