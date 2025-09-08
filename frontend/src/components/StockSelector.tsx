@@ -20,6 +20,7 @@ const StockSelector: React.FC = () => {
   }, [dispatch]);
 
   const handleStockChange = (stockSymbol: string) => {
+    console.log(`🔄 Stock changed to: ${stockSymbol}`);
     dispatch({ type: 'SET_SELECTED_STOCK', payload: stockSymbol });
   };
 

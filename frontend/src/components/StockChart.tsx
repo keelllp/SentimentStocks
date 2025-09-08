@@ -36,9 +36,19 @@ const StockChart: React.FC = () => {
     const loadStockData = async () => {
       if (!state.selectedStock) return;
       
+      console.log(`📊 Loading stock data for: ${state.selectedStock}`);
       setLoading(true);
       try {
+        // Clear cache before fetching new data
+        try {
+          await fetch('http://localhost:5000/clear_cache', { method: 'POST' });
+          console.log('🗑️ Cache cleared');
+        } catch (e) {
+          console.log('⚠️ Could not clear cache:', e);
+        }
+        
         const data = await fetchStockData(state.selectedStock);
+        console.log(`📈 Received data for ${state.selectedStock}:`, data);
         setStockData(data);
       } catch (error) {
         console.error('Failed to load stock data:', error);
@@ -81,7 +91,7 @@ const StockChart: React.FC = () => {
     labels: stockData.dates,
     datasets: [
       {
-        label: 'Stock Price',
+        label: `${state.selectedStock} Price`,
         data: stockData.prices,
         borderColor: 'rgb(59, 130, 246)',
         backgroundColor: 'rgba(59, 130, 246, 0.1)',
