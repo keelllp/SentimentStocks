@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TrendingUp, TrendingDown, Minus, Target, BarChart3, Clock } from 'lucide-react';
 import { useStock } from '../context/StockContext';
 import { PredictionResult as PredictionResultType } from '../context/StockContext';
@@ -8,6 +8,10 @@ const PredictionResult: React.FC = () => {
   const result = state.predictionResult as PredictionResultType;
 
   if (!result) return null;
+
+  useEffect(() =>{
+    console.log("Rendering PredictionResult with data:", result);
+  })
 
   const getPriceChangeIcon = () => {
     if (result.price_change > 0) {

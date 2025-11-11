@@ -44,3 +44,7 @@ notebook==7.0.2
 
 # Development and utilities
 typing-extensions>=4.12.0
+
+# SmartAPI
+smartapi-python
+logzero
