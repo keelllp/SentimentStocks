@@ -100,21 +100,6 @@ const PredictionResult: React.FC = () => {
               </div>
             </div>
           </div>
-          
-          {result.sentiment_score !== undefined && (
-            <div className="bg-gray-50 rounded-lg p-4">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-medium text-gray-700">Sentiment Score</span>
-                <span className="text-sm text-gray-500">📰</span>
-              </div>
-              <div className={`text-lg font-medium ${result.sentiment_score > 0 ? 'text-success-600' : result.sentiment_score < 0 ? 'text-danger-600' : 'text-gray-600'}`}>
-                {result.sentiment_score > 0 ? '+' : ''}{result.sentiment_score.toFixed(3)}
-              </div>
-              <div className="text-xs text-gray-500 mt-1">
-                {result.sentiment_score > 0 ? 'Positive' : result.sentiment_score < 0 ? 'Negative' : 'Neutral'}
-              </div>
-            </div>
-          )}
         </div>
       </div>
       

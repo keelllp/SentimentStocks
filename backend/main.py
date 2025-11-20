@@ -33,8 +33,7 @@ ANGEL_CLIENT_ID = os.environ.get("ANGEL_CLIENT_ID", "AABX480655")
 ANGEL_CLIENT_PWD = os.environ.get("ANGEL_CLIENT_PWD", "Kbsh@2310_")
 ANGEL_TOTP_SECRET = os.environ.get("ANGEL_TOTP_SECRET", "")
 ANGEL_MPIN = os.environ.get("ANGEL_MPIN", os.environ.get("ANGEL_PIN", "8080"))  # 4-digit MPIN if needed
-ANGEL_ACCESS_TOKEN = os.environ.get("ANGEL_ACCESS_TOKEN", "eyJhbGciOiJIUzUxMiJ9.eyJ1c2VybmFtZSI6IkFBQlg0ODA2NTUiLCJyb2xlcyI6MCwidXNlcnR5cGUiOiJVU0VSIiwidG9rZW4iOiJleUpoYkdjaU9pSlNVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKMWMyVnlYM1I1Y0dVaU9pSmpiR2xsYm5RaUxDSjBiMnRsYmw5MGVYQmxJam9pZEhKaFpHVmZZV05qWlhOelgzUnZhMlZ1SWl3aVoyMWZhV1FpT2pNc0luTnZkWEpqWlNJNklqTWlMQ0prWlhacFkyVmZhV1FpT2lJd09ETmpZamd3WmkwellURmtMVE5tTWpRdFlqUXlaUzAwWW1GbVpXSmtZVGRrWVRraUxDSnJhV1FpT2lKMGNtRmtaVjlyWlhsZmRqSWlMQ0p2Ylc1bGJXRnVZV2RsY21sa0lqb3pMQ0p3Y205a2RXTjBjeUk2ZXlKa1pXMWhkQ0k2ZXlKemRHRjBkWE1pT2lKaFkzUnBkbVVpZlN3aWJXWWlPbnNpYzNSaGRIVnpJam9pWVdOMGFYWmxJbjE5TENKcGMzTWlPaUowY21Ga1pWOXNiMmRwYmw5elpYSjJhV05sSWl3aWMzVmlJam9pUVVGQ1dEUTRNRFkxTlNJc0ltVjRjQ0k2TVRjMk16WTJOalF6TUN3aWJtSm1Jam94TnpZek5UYzVPRFV3TENKcFlYUWlPakUzTmpNMU56azROVEFzSW1wMGFTSTZJakprTjJVNE9XSmxMV1ZrTVRjdE5HVm1OeTFpTUdJMExXVTNaV1V6WkRRMllqTTJZeUlzSWxSdmEyVnVJam9pSW4wLkhBTktHUGFMT2E5Q0Q4ZGktY2w3SEFwQm4wYlpuRzBoaHdwTmxNU1kzazUwWm0tZHhoVFRmekI3LXI5LWpYOWVHNGtOQXBCWTR0eGFlVU9iU2hLdGp2RFg4RWF4ZGNVNVozUUp0RVo4Mk9velp2Yy1RQllfaDU5Nllnamt4RkJUcEE1LXZVeFlvM0FhblVMLVJ3c0M5S25vb3JxRmd6TWU3bEZEU0xEX2tncyIsIkFQSS1LRVkiOiJLUVpyaktEWCIsIlgtT0xELUFQSS1LRVkiOnRydWUsImlhdCI6MTc2MzU4MDAzMCwiZXhwIjoxNzYzNjYzNDAwfQ.tNDSI3aEOixhxB48Iavp1-Xuz6dHjIFXZcCjb_P40G24VEzulSPYE3wVPzvdeBKLGai0xlOcf24KXOvo-7ilTw")
-
+ANGEL_ACCESS_TOKEN = os.environ.get("ANGEL_ACCESS_TOKEN", "eyJhbGciOiJIUzUxMiJ9.eyJ1c2VybmFtZSI6IkFBQlg0ODA2NTUiLCJyb2xlcyI6MCwidXNlcnR5cGUiOiJVU0VSIiwidG9rZW4iOiJleUpoYkdjaU9pSlNVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKMWMyVnlYM1I1Y0dVaU9pSmpiR2xsYm5RaUxDSjBiMnRsYmw5MGVYQmxJam9pZEhKaFpHVmZZV05qWlhOelgzUnZhMlZ1SWl3aVoyMWZhV1FpT2pNc0luTnZkWEpqWlNJNklqTWlMQ0prWlhacFkyVmZhV1FpT2lJd09ETmpZamd3WmkwellURmtMVE5tTWpRdFlqUXlaUzAwWW1GbVpXSmtZVGRrWVRraUxDSnJhV1FpT2lKMGNtRmtaVjlyWlhsZmRqSWlMQ0p2Ylc1bGJXRnVZV2RsY21sa0lqb3pMQ0p3Y205a2RXTjBjeUk2ZXlKa1pXMWhkQ0k2ZXlKemRHRjBkWE1pT2lKaFkzUnBkbVVpZlN3aWJXWWlPbnNpYzNSaGRIVnpJam9pWVdOMGFYWmxJbjE5TENKcGMzTWlPaUowY21Ga1pWOXNiMmRwYmw5elpYSjJhV05sSWl3aWMzVmlJam9pUVVGQ1dEUTRNRFkxTlNJc0ltVjRjQ0k2TVRjMk16Y3lOalF4Tnl3aWJtSm1Jam94TnpZek5qTTVPRE0zTENKcFlYUWlPakUzTmpNMk16azRNemNzSW1wMGFTSTZJamd3TWpFNU9HVXpMVGN4TkRjdE5HRmxZUzA1TVRCaExUZGlZbU0wWWpFNFpUZzBOQ0lzSWxSdmEyVnVJam9pSW4wLkNYZ2tjb1RmVW96MjBZTjJFWmlyS0Y3ZWdxSjJua1VzQjZMUkgtQnlNLWZtcG9JaDFJUkhNeGpJM2xFUEJjSnpJWEViNmI4M3pxMnhoV3FCaWtpRHhsY1RmeDVUREhwYTJfU1NZSkFoX3huUDR0dEVONzh6QlhYa2ZhWEt1eE9XQ0F6cVFKcnY5NXpSNVNQeW9iN196eFpnMGhMc1BPdmtCOXY1UEpaaF9vdyIsIkFQSS1LRVkiOiJLUVpyaktEWCIsIlgtT0xELUFQSS1LRVkiOnRydWUsImlhdCI6MTc2MzY0MDAxNywiZXhwIjoxNzYzNjYzNDAwfQ.mGcOFDn0ai7CsedOiO_S6i3f-1LtK3-8UZlrUsCD_hzA3ExdgFsG5yAcrXnmuVPd_L5KI_Vmkod4_n8vqHOQTA")
 # NSE tokens for commonly used symbols (expand as needed)
 SYMBOL_TOKEN_MAP = {
     'RELIANCE': '2885', 'INFY': '1594', 'TCS': '11536', 'HDFCBANK': '1333',
@@ -243,12 +242,21 @@ def get_ltp(symbol: str) -> float | None:
         print(f"No token configured for {symbol}")
         return None
 
-    def _fetch():
-        params = {"exchange": "NSE", "tradingsymbol": f"{symbol.upper()}-EQ", "symboltoken": token}
+    def _fetch(tradingsymbol):
+        params = {"exchange": "NSE", "tradingsymbol": tradingsymbol, "symboltoken": token}
         return obj.ltpData(**params)
 
     try:
-        resp = _fetch()
+        # Try with -EQ suffix first
+        resp = _fetch(f"{symbol.upper()}-EQ")
+        
+        # If it fails, try without -EQ suffix
+        if isinstance(resp, dict) and resp.get('success') is False:
+            msg = resp.get('message', '')
+            if 'Failed to get symbol details' in msg:
+                print(f"Trying {symbol} without -EQ suffix")
+                resp = _fetch(symbol.upper())
+        
         if not isinstance(resp, dict):
             print(f"LTP unexpected response for {symbol}: {resp}")
             return None
@@ -261,7 +269,7 @@ def get_ltp(symbol: str) -> float | None:
                 angel = None
                 if get_session() is None:
                     return None
-                resp = _fetch()
+                resp = _fetch(f"{symbol.upper()}-EQ")
                 if not isinstance(resp, dict) or resp.get('success') is False:
                     return None
         data = resp.get('data') or {}
@@ -293,19 +301,28 @@ def get_historical_ohlc(symbol: str, interval="ONE_DAY", days=100):
         end_date = datetime.now()
         start_date = end_date - pd.Timedelta(days=days)
 
+        # Try with -EQ suffix first
         params = {
             "exchange": "NSE",
             "symboltoken": token,
             "interval": interval,
-            "fromdate": start_date.strftime("%Y-%m-%d"),
-            "todate": end_date.strftime("%Y-%m-%d"),
+            "fromdate": start_date.strftime("%Y-%m-%d %H:%M"),
+            "todate": end_date.strftime("%Y-%m-%d %H:%M"),
             "tradingsymbol": f"{symbol.upper()}-EQ"
         }
         
         print(f"🔍 Fetching historical data for {symbol}: {days} days")
-        print(f"📅 Date range: {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}")
+        print(f"📅 Date range: {start_date.strftime('%Y-%m-%d %H:%M')} to {end_date.strftime('%Y-%m-%d %H:%M')}")
         
         resp = obj.getCandleData(params)
+        
+        # If it fails with symbol error, try without -EQ suffix
+        if isinstance(resp, dict) and resp.get("status") is False:
+            msg = resp.get("message", "")
+            if 'Failed to get symbol details' in msg or 'Invalid' in msg:
+                print(f"Trying {symbol} without -EQ suffix")
+                params["tradingsymbol"] = symbol.upper()
+                resp = obj.getCandleData(params)
         
         if not isinstance(resp, dict):
             print(f"❌ Unexpected response type for {symbol}: {type(resp)}")
@@ -399,9 +416,18 @@ def predict():
                 df['Date'] = pd.to_datetime(df['time'])
                 df = df.set_index('Date')
                 
-                # Convert to numeric
+                # Convert to numeric and rename to capitalized columns for predictor
                 for col in ['open', 'high', 'low', 'close', 'volume']:
                     df[col] = pd.to_numeric(df[col], errors='coerce')
+                
+                # Rename columns to match predictor expectations
+                df = df.rename(columns={
+                    'open': 'Open',
+                    'high': 'High', 
+                    'low': 'Low',
+                    'close': 'Close',
+                    'volume': 'Volume'
+                })
                 
                 # Use the ML predictor
                 prediction_result = predictor.predict(df, sentiment_score)
@@ -415,7 +441,7 @@ def predict():
                         'predicted_price_formatted': f"{prediction_result['predicted_price']:,.2f}",
                         'price_change': prediction_result['price_change'],
                         'price_change_pct': prediction_result['price_change_pct'],
-                        'prediction_date': datetime.now().strftime('%Y-%m-%d'),
+                        'prediction_date': (datetime.now() + pd.Timedelta(days=1)).strftime('%Y-%m-%d'),
                         'model_info': {
                             'name': 'LightGBM ML Model',
                             'method': prediction_result['method'],
@@ -442,7 +468,7 @@ def predict():
                 'predicted_price_formatted': f"{predicted_price:,.2f}",
                 'price_change': change,
                 'price_change_pct': change_pct,
-                'prediction_date': datetime.now().strftime('%Y-%m-%d'),
+                'prediction_date': (datetime.now() + pd.Timedelta(days=1)).strftime('%Y-%m-%d'),
                 'model_info': {
                     'name': 'Live Price (No Historical Data)',
                     'rmse': 'N/A',
@@ -480,7 +506,7 @@ def predict():
                 'predicted_price_formatted': f"{prediction_result['predicted_price']:,.2f}",
                 'price_change': prediction_result['price_change'],
                 'price_change_pct': prediction_result['price_change_pct'],
-                'prediction_date': datetime.now().strftime('%Y-%m-%d'),
+                'prediction_date': (datetime.now() + pd.Timedelta(days=1)).strftime('%Y-%m-%d'),
                 'model_info': {
                     'name': 'LightGBM ML Model',
                     'method': prediction_result['method'],
@@ -515,7 +541,7 @@ def predict():
             'predicted_price_formatted': f"{predicted_price:,.2f}",
             'price_change': change,
             'price_change_pct': change_pct,
-            'prediction_date': datetime.now().strftime('%Y-%m-%d'),
+            'prediction_date': (datetime.now() + pd.Timedelta(days=1)).strftime('%Y-%m-%d'),
             'model_info': {
                 'name': 'Fallback Drift',
                 'rmse': 'N/A',
