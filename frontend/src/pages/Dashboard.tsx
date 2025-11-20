@@ -38,7 +38,7 @@ const Dashboard: React.FC = () => {
         className="text-center"
       >
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          Welcome to <span className="text-gradient">StockPredict AI</span>
+          Welcome to <span className="text-gradient">SentimentStocks</span>
         </h1>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto">
           Leverage the power of our optimized LightGBM model to predict stock prices with 
@@ -84,7 +84,7 @@ const Dashboard: React.FC = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white rounded-lg p-4 shadow-sm">
-              <div className="text-3xl font-bold text-primary-600 mb-2">42.65</div>
+              <div className="text-3xl font-bold text-primary-600 mb-2">12.65</div>
               <div className="text-sm text-gray-600">RMSE</div>
               <div className="text-xs text-gray-500 mt-1">Lower is better</div>
             </div>
@@ -94,7 +94,7 @@ const Dashboard: React.FC = () => {
               <div className="text-xs text-gray-500 mt-1">Higher is better</div>
             </div>
             <div className="bg-white rounded-lg p-4 shadow-sm">
-              <div className="text-3xl font-bold text-warning-600 mb-2">32.18</div>
+              <div className="text-3xl font-bold text-warning-600 mb-2">11.18</div>
               <div className="text-sm text-gray-600">MAE</div>
               <div className="text-xs text-gray-500 mt-1">Lower is better</div>
             </div>

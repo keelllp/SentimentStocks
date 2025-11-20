@@ -12,7 +12,7 @@ const Header: React.FC = () => {
             </div>
             <div>
               <h1 className="text-2xl font-bold text-gradient">
-                StockPredict AI
+                SentimentStocks
               </h1>
               <p className="text-sm text-gray-600">
                 Powered by Optimized LightGBM

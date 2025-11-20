@@ -7,11 +7,11 @@ const PredictionResult: React.FC = () => {
   const { state } = useStock();
   const result = state.predictionResult as PredictionResultType;
 
-  if (!result) return null;
-
   useEffect(() =>{
     console.log("Rendering PredictionResult with data:", result);
   })
+
+  if (!result) return null;
 
   const getPriceChangeIcon = () => {
     if (result.price_change > 0) {
@@ -89,15 +89,15 @@ const PredictionResult: React.FC = () => {
             <div className={`text-lg font-medium ${getPriceChangeColor()}`}>
               {result.price_change > 0 ? '+' : ''}{result.price_change_pct.toFixed(2)}%
             </div>
-          </div>
-          
-          <div className="bg-gray-50 rounded-lg p-4">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-medium text-gray-700">Confidence</span>
-              <BarChart3 className="w-4 h-4 text-gray-600" />
-            </div>
-            <div className="flex items-center space-x-2">
-              {getConfidenceBadge()}
+            <div className="grid grid-cols-2 gap-2 mt-4 text-xs">
+              <div className="bg-white rounded p-2">
+                <div className="text-gray-600">Price Range</div>
+                <div className="font-semibold text-gray-900">₹{result.current_price.toLocaleString()} → ₹{result.predicted_price.toLocaleString()}</div>
+              </div>
+              <div className="bg-white rounded p-2">
+                <div className="text-gray-600">Model</div>
+                <div className="font-semibold text-gray-900">{result.model_info?.name || 'LightGBM'}</div>
+              </div>
             </div>
           </div>
           
@@ -115,29 +115,6 @@ const PredictionResult: React.FC = () => {
               </div>
             </div>
           )}
-        </div>
-      </div>
-      
-      {/* Model Information */}
-      <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-        <div className="flex items-start space-x-3">
-          <BarChart3 className="w-5 h-5 text-blue-600 mt-0.5" />
-          <div className="text-sm text-blue-800">
-            <p className="font-medium">Model Performance</p>
-            <div className="grid grid-cols-2 gap-4 mt-2">
-              <div>
-                <span className="font-medium">RMSE:</span> {result.model_info.rmse || 'N/A'}
-              </div>
-              <div>
-                <span className="font-medium">R²:</span> {result.model_info.r2 || 'N/A'}
-              </div>
-            </div>
-            {result.model_info.note && (
-              <div className="mt-2 text-xs text-blue-600">
-                {result.model_info.note}
-              </div>
-            )}
-          </div>
         </div>
       </div>
       
