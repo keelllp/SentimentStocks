@@ -27,13 +27,13 @@ except Exception:
 # Angel One configuration
 # =========================
 # These values are already present in your codebase; we keep them as defaults
-ANGEL_API_KEY = "KQZrjKDX "
-ANGEL_API_SECRET = "5fbc43c9-78ee-402c-8571-f290dd5c2943"  # not used directly by SmartApi for LTP
+ANGEL_API_KEY = "UsOGGTK1"
+ANGEL_API_SECRET = "2afb652b-3ea0-4768-a49b-bd592ab2787a"  # not used directly by SmartApi for LTP
 ANGEL_CLIENT_ID = os.environ.get("ANGEL_CLIENT_ID", "AABX480655")
 ANGEL_CLIENT_PWD = os.environ.get("ANGEL_CLIENT_PWD", "Kbsh@2310_")
-ANGEL_TOTP_SECRET = os.environ.get("ANGEL_TOTP_SECRET", "")
-ANGEL_MPIN = os.environ.get("ANGEL_MPIN", os.environ.get("ANGEL_PIN", "8080"))  # 4-digit MPIN if needed
-ANGEL_ACCESS_TOKEN = os.environ.get("ANGEL_ACCESS_TOKEN", "eyJhbGciOiJIUzUxMiJ9.eyJ1c2VybmFtZSI6IkFBQlg0ODA2NTUiLCJyb2xlcyI6MCwidXNlcnR5cGUiOiJVU0VSIiwidG9rZW4iOiJleUpoYkdjaU9pSlNVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKMWMyVnlYM1I1Y0dVaU9pSmpiR2xsYm5RaUxDSjBiMnRsYmw5MGVYQmxJam9pZEhKaFpHVmZZV05qWlhOelgzUnZhMlZ1SWl3aVoyMWZhV1FpT2pNc0luTnZkWEpqWlNJNklqTWlMQ0prWlhacFkyVmZhV1FpT2lJd09ETmpZamd3WmkwellURmtMVE5tTWpRdFlqUXlaUzAwWW1GbVpXSmtZVGRrWVRraUxDSnJhV1FpT2lKMGNtRmtaVjlyWlhsZmRqSWlMQ0p2Ylc1bGJXRnVZV2RsY21sa0lqb3pMQ0p3Y205a2RXTjBjeUk2ZXlKa1pXMWhkQ0k2ZXlKemRHRjBkWE1pT2lKaFkzUnBkbVVpZlN3aWJXWWlPbnNpYzNSaGRIVnpJam9pWVdOMGFYWmxJbjE5TENKcGMzTWlPaUowY21Ga1pWOXNiMmRwYmw5elpYSjJhV05sSWl3aWMzVmlJam9pUVVGQ1dEUTRNRFkxTlNJc0ltVjRjQ0k2TVRjMk16Y3lOalF4Tnl3aWJtSm1Jam94TnpZek5qTTVPRE0zTENKcFlYUWlPakUzTmpNMk16azRNemNzSW1wMGFTSTZJamd3TWpFNU9HVXpMVGN4TkRjdE5HRmxZUzA1TVRCaExUZGlZbU0wWWpFNFpUZzBOQ0lzSWxSdmEyVnVJam9pSW4wLkNYZ2tjb1RmVW96MjBZTjJFWmlyS0Y3ZWdxSjJua1VzQjZMUkgtQnlNLWZtcG9JaDFJUkhNeGpJM2xFUEJjSnpJWEViNmI4M3pxMnhoV3FCaWtpRHhsY1RmeDVUREhwYTJfU1NZSkFoX3huUDR0dEVONzh6QlhYa2ZhWEt1eE9XQ0F6cVFKcnY5NXpSNVNQeW9iN196eFpnMGhMc1BPdmtCOXY1UEpaaF9vdyIsIkFQSS1LRVkiOiJLUVpyaktEWCIsIlgtT0xELUFQSS1LRVkiOnRydWUsImlhdCI6MTc2MzY0MDAxNywiZXhwIjoxNzYzNjYzNDAwfQ.mGcOFDn0ai7CsedOiO_S6i3f-1LtK3-8UZlrUsCD_hzA3ExdgFsG5yAcrXnmuVPd_L5KI_Vmkod4_n8vqHOQTA")
+ANGEL_TOTP_SECRET = os.environ.get("ANGEL_TOTP_SECRET", "WBWETMN5YX4RM7WNWHADBJQU6U")
+ANGEL_MPIN = os.environ.get("ANGEL_MPIN", os.environ.get("ANGEL_PIN", "6969"))  # 4-digit MPIN if needed
+ANGEL_ACCESS_TOKEN = os.environ.get("ANGEL_ACCESS_TOKEN", "eyJhbGciOiJIUzUxMiJ9.eyJ1c2VybmFtZSI6IkFBQlg0ODA2NTUiLCJyb2xlcyI6MCwidXNlcnR5cGUiOiJVU0VSIiwidG9rZW4iOiJleUpoYkdjaU9pSlNVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKMWMyVnlYM1I1Y0dVaU9pSmpiR2xsYm5RaUxDSjBiMnRsYmw5MGVYQmxJam9pZEhKaFpHVmZZV05qWlhOelgzUnZhMlZ1SWl3aVoyMWZhV1FpT2pNc0luTnZkWEpqWlNJNklqTWlMQ0prWlhacFkyVmZhV1FpT2lJME5qQTFZbUU1TkMwM1pUY3pMVE14TURVdFlXVXhZeTAxT0RabVltUXhZVEl6WlRVaUxDSnJhV1FpT2lKMGNtRmtaVjlyWlhsZmRqSWlMQ0p2Ylc1bGJXRnVZV2RsY21sa0lqb3pMQ0p3Y205a2RXTjBjeUk2ZXlKa1pXMWhkQ0k2ZXlKemRHRjBkWE1pT2lKaFkzUnBkbVVpZlN3aWJXWWlPbnNpYzNSaGRIVnpJam9pWVdOMGFYWmxJbjE5TENKcGMzTWlPaUowY21Ga1pWOXNiMmRwYmw5elpYSjJhV05sSWl3aWMzVmlJam9pUVVGQ1dEUTRNRFkxTlNJc0ltVjRjQ0k2TVRjM09ERTJPVGszTml3aWJtSm1Jam94TnpjNE1EZ3pNemsyTENKcFlYUWlPakUzTnpnd09ETXpPVFlzSW1wMGFTSTZJbU5sT0RCallXRTNMV00xTVRBdE5ERmlZUzA1WVRobUxURXlZamN5WVRsaVptTTVPQ0lzSWxSdmEyVnVJam9pSW4wLm4wRGlidmIzTV94eWx5aGNDZW11ZXhWYy1RM1JKQ0pWMGpsc1FfWDJvMjY3SkxoMC1EaFNYcDExeEJubjY0c0NieGNfd3dMdzQzY0ZqMmdtb2QzZW5FWFBXZkdSTjQ1emRxb1ptS0JYT20wNTV3NlV0bGs4UDFLWnZ4UVR4a1ZPY2MxUUxsZVBibFZmQXpKa3Vud0Z2ckt6UGVuR3g0WlFaVWV3b1NiWDZBdyIsIkFQSS1LRVkiOiJVc09HR1RLMSIsImlhdCI6MTc3ODA4MzU3NiwiZXhwIjoxNzc4MDkyMjAwfQ.rYjZsRGfUqnFkh-_zTm9on7bEcvUZ6m6cn29nwMNlP-6qvEw0wDhUo1PGzEej6-X-RWCGeHvU66GPlySqr5dHA")
 # NSE tokens for commonly used symbols (expand as needed)
 SYMBOL_TOKEN_MAP = {
     'RELIANCE': '2885', 'INFY': '1594', 'TCS': '11536', 'HDFCBANK': '1333',
@@ -170,67 +170,41 @@ def mpin_login(clientcode: str, mpin: str, totp_code: str | None) -> str | None:
         return None
 
 
-def get_session() -> SmartConnect | None:
+def get_session():
     global angel, angel_login_error
+
     if angel is not None:
         return angel
 
-    angel = SmartConnect(api_key=ANGEL_API_KEY)
+    try:
+        angel = SmartConnect(api_key=ANGEL_API_KEY)
 
-    # 1) If access token provided, use it directly
-    if ANGEL_ACCESS_TOKEN:
-        try:
-            angel.setAccessToken(ANGEL_ACCESS_TOKEN)
-            return angel
-        except Exception as e:
-            print(f"Failed to set ANGEL_ACCESS_TOKEN: {e}")
+        totp = pyotp.TOTP(
+            ANGEL_TOTP_SECRET
+        ).now()
 
-    # 2) Try password-only login first (matches earlier working setup)
-    if ANGEL_CLIENT_ID and ANGEL_CLIENT_PWD:
-        try:
-            try_totp = ""
-            login = angel.generateSession(ANGEL_CLIENT_ID, ANGEL_CLIENT_PWD, try_totp)
-            if isinstance(login, dict) and login.get('status') is False:
-                msg = login.get('message', '')
-                print(f"Password-only login failed: {msg}")
-            else:
-                token = (login.get('data') or {}).get('accessToken') if isinstance(login, dict) else None
-                if token:
-                    angel.setAccessToken(token)
-                    return angel
-        except Exception as e:
-            print(f"Password-only login error: {e}")
+        data = angel.generateSession(
+            ANGEL_CLIENT_ID,
+            ANGEL_MPIN,
+            totp
+        )
 
-    # 3) Try password + TOTP (auto TOTP from secret if available)
-    otp = generate_totp_from_secret(ANGEL_TOTP_SECRET) or os.environ.get("ANGEL_TOTP", "")
-    if ANGEL_CLIENT_ID and ANGEL_CLIENT_PWD and otp:
-        try:
-            login = angel.generateSession(ANGEL_CLIENT_ID, ANGEL_CLIENT_PWD, otp)
-            if isinstance(login, dict) and login.get('status') is False:
-                msg = login.get('message', '')
-                print(f"Password login failed: {msg}")
-            else:
-                token = (login.get('data') or {}).get('accessToken') if isinstance(login, dict) else None
-                if token:
-                    angel.setAccessToken(token)
-                    return angel
-        except Exception as e:
-            print(f"Password login error: {e}")
+        if not data or 'data' not in data:
+            angel_login_error = "Login failed"
+            angel = None
+            return None
 
-    # 4) Try MPIN flow
-    if ANGEL_CLIENT_ID and ANGEL_MPIN:
-        token = mpin_login(ANGEL_CLIENT_ID, ANGEL_MPIN, otp)
-        if token:
-            try:
-                angel.setAccessToken(token)
-                return angel
-            except Exception as e:
-                print(f"Failed to set token from MPIN login: {e}")
+        print("✅ Angel One login success")
 
-    angel_login_error = "Unable to authenticate with Angel One. Tried password-only, password+TOTP, then MPIN. Provide ANGEL_ACCESS_TOKEN or contact Angel One to enable password login."
-    print(angel_login_error)
-    angel = None
-    return None
+        return angel
+
+    except Exception as e:
+        print(f"Angel login failed: {e}")
+
+        angel_login_error = str(e)
+        angel = None
+
+        return None
 
 
 def get_ltp(symbol: str) -> float | None:

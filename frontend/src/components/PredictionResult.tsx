@@ -45,32 +45,32 @@ const PredictionResult: React.FC = () => {
   return (
     <div className="card animate-fade-in">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-gray-900">Prediction Result</h2>
-        <Target className="w-6 h-6 text-primary-600" />
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Prediction Result</h2>
+        <Target className="w-6 h-6 text-primary-600 dark:text-primary-400" />
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Price Information */}
         <div className="space-y-4">
-          <div className="bg-gradient-to-br from-primary-50 to-primary-100 rounded-lg p-4">
+          <div className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-lg p-4">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-medium text-primary-700">Current Price</span>
-              <Clock className="w-4 h-4 text-primary-600" />
+              <span className="text-sm font-medium text-primary-700 dark:text-primary-300">Current Price</span>
+              <Clock className="w-4 h-4 text-primary-600 dark:text-primary-400" />
             </div>
-            <div className="text-2xl font-bold text-primary-900">
+            <div className="text-2xl font-bold text-primary-900 dark:text-primary-100">
               ₹{result.current_price.toLocaleString()}
             </div>
           </div>
           
-          <div className="bg-gradient-to-br from-success-50 to-success-100 rounded-lg p-4">
+          <div className="bg-gradient-to-br from-success-50 to-success-100 dark:from-success-900/20 dark:to-success-800/20 rounded-lg p-4">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-medium text-success-700">Predicted Price</span>
-              <Target className="w-4 h-4 text-success-600" />
+              <span className="text-sm font-medium text-success-700 dark:text-success-300">Predicted Price</span>
+              <Target className="w-4 h-4 text-success-600 dark:text-success-400" />
             </div>
-            <div className="text-2xl font-bold text-success-900">
+            <div className="text-2xl font-bold text-success-900 dark:text-success-100">
               ₹{result.predicted_price.toLocaleString()}
             </div>
-            <div className="text-sm text-success-700 mt-1">
+            <div className="text-sm text-success-700 dark:text-success-300 mt-1">
               For {result.prediction_date}
             </div>
           </div>
@@ -78,9 +78,9 @@ const PredictionResult: React.FC = () => {
         
         {/* Change Information */}
         <div className="space-y-4">
-          <div className="bg-gray-50 rounded-lg p-4">
+          <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-medium text-gray-700">Price Change</span>
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Price Change</span>
               {getPriceChangeIcon()}
             </div>
             <div className={`text-2xl font-bold ${getPriceChangeColor()}`}>
@@ -90,13 +90,13 @@ const PredictionResult: React.FC = () => {
               {result.price_change > 0 ? '+' : ''}{result.price_change_pct.toFixed(2)}%
             </div>
             <div className="grid grid-cols-2 gap-2 mt-4 text-xs">
-              <div className="bg-white rounded p-2">
-                <div className="text-gray-600">Price Range</div>
-                <div className="font-semibold text-gray-900">₹{result.current_price.toLocaleString()} → ₹{result.predicted_price.toLocaleString()}</div>
+              <div className="bg-white dark:bg-gray-800 rounded p-2">
+                <div className="text-gray-600 dark:text-gray-400">Price Range</div>
+                <div className="font-semibold text-gray-900 dark:text-white">₹{result.current_price.toLocaleString()} → ₹{result.predicted_price.toLocaleString()}</div>
               </div>
-              <div className="bg-white rounded p-2">
-                <div className="text-gray-600">Model</div>
-                <div className="font-semibold text-gray-900">{result.model_info?.name || 'LightGBM'}</div>
+              <div className="bg-white dark:bg-gray-800 rounded p-2">
+                <div className="text-gray-600 dark:text-gray-400">Model</div>
+                <div className="font-semibold text-gray-900 dark:text-white">{result.model_info?.name || 'LightGBM'}</div>
               </div>
             </div>
           </div>

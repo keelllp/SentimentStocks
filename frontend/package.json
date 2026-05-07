@@ -1,13 +1,12 @@
-
 {
   "name": "stock-prediction-frontend",
   "version": "1.0.0",
   "description": "Modern TypeScript React frontend for Stock Price Prediction System",
   "private": true,
-  "engines":{
-    "node":"18.x"
+  "engines": {
+    "node": "18.x"
   },
-  "dependencies":{
+  "dependencies": {
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "autoprefixer": "^10.4.0",
@@ -55,5 +54,4 @@
     "@types/node": "^24.3.0"
   },
   "proxy": "http://localhost:5000"
-  
 }

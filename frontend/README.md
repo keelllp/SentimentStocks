@@ -1,4 +1,4 @@
-# StockPredict AI Frontend
+# SentimentStocks Frontend
 
 A modern, responsive TypeScript React frontend for the Stock Price Prediction System.
 
@@ -202,7 +202,7 @@ REACT_APP_API_URL=https://your-api-domain.com
 
 ## 📄 License
 
-This project is part of the StockPredict AI system.
+This project is part of the SentimentStocks system.
 
 ---
 

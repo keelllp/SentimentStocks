@@ -216,19 +216,19 @@ const StockChart: React.FC = () => {
   return (
     <div className="card">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-gray-900">Price Chart</h2>
-        <TrendingUp className="w-6 h-6 text-primary-600" />
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Price Chart</h2>
+        <TrendingUp className="w-6 h-6 text-primary-600 dark:text-primary-400" />
       </div>
       
       <div className="h-80">
         <Line data={chartData} options={options} />
       </div>
       
-      <div className="mt-4 text-sm text-gray-600 text-center space-y-2">
+      <div className="mt-4 text-sm text-gray-600 dark:text-gray-400 text-center space-y-2">
         <div>
           <span className="font-medium">{state.selectedStock}</span> - Last 100 trading days
           {state.predictionResult && (
-            <span className="ml-2 text-success-600">
+            <span className="ml-2 text-success-600 dark:text-success-400">
               • Prediction included for {state.predictionResult.prediction_date}
             </span>
           )}
