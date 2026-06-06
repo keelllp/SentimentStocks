@@ -1,0 +1,34 @@
+# Python runtime artefacts
+venv/
+.venv/
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+
+# Frontend (built separately in its own stage)
+frontend/
+
+# Dev/IDE files
+.git/
+.gitignore
+.vscode/
+.idea/
+*.md
+
+# Logs and caches (ephemeral)
+logs/
+backend/logs/
+backend/news_cache/
+backend/.angel_session.json
+
+# Secrets (never bake into image)
+.env
+.env.*
+!.env.example
+
+# Node deps at root (not needed for backend)
+node_modules/
+
+# Exclude heavy notebook files but keep the Python modules (used by sentiment_live.py)
+notebooks/*.ipynb
+notebooks/.ipynb_checkpoints/

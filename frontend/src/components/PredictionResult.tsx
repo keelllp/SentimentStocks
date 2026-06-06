@@ -7,7 +7,7 @@ const PredictionResult: React.FC = () => {
   const { state } = useStock();
   const result = state.predictionResult as PredictionResultType;
 
-  useEffect(() =>{
+  useEffect(() => {
     console.log("Rendering PredictionResult with data:", result);
   })
 
@@ -48,7 +48,7 @@ const PredictionResult: React.FC = () => {
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Prediction Result</h2>
         <Target className="w-6 h-6 text-primary-600 dark:text-primary-400" />
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Price Information */}
         <div className="space-y-4">
@@ -61,7 +61,7 @@ const PredictionResult: React.FC = () => {
               ₹{result.current_price.toLocaleString()}
             </div>
           </div>
-          
+
           <div className="bg-gradient-to-br from-success-50 to-success-100 dark:from-success-900/20 dark:to-success-800/20 rounded-lg p-4">
             <div className="flex items-center justify-between mb-3">
               <span className="text-sm font-medium text-success-700 dark:text-success-300">Predicted Price</span>
@@ -75,7 +75,7 @@ const PredictionResult: React.FC = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Change Information */}
         <div className="space-y-4">
           <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
@@ -96,13 +96,13 @@ const PredictionResult: React.FC = () => {
               </div>
               <div className="bg-white dark:bg-gray-800 rounded p-2">
                 <div className="text-gray-600 dark:text-gray-400">Model</div>
-                <div className="font-semibold text-gray-900 dark:text-white">{result.model_info?.name || 'LightGBM'}</div>
+                <div className="font-semibold text-gray-900 dark:text-white">{result.model_info?.name || 'XGBoost + Random Forest Regressor'}</div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      
+
       {/* Data Source and Timestamp */}
       <div className="mt-4 text-xs text-gray-500 text-center space-y-1">
         {result.data_source && (
@@ -114,7 +114,7 @@ const PredictionResult: React.FC = () => {
           Prediction made at {new Date(result.timestamp).toLocaleString()}
         </div>
       </div>
-      
+
       {/* Warning for old data */}
       {result.data_source && result.data_source.includes('CSV') && (
         <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
@@ -123,7 +123,7 @@ const PredictionResult: React.FC = () => {
             <span className="text-sm font-medium">Historical Data Warning</span>
           </div>
           <p className="text-xs text-yellow-700 mt-1">
-            This prediction is based on historical CSV data, not live market data. 
+            This prediction is based on historical CSV data, not live market data.
             For accurate predictions, ensure your internet connection allows access to live stock data.
           </p>
         </div>

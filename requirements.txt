@@ -11,7 +11,7 @@ numpy==1.24.3
 requests==2.31.0
 
 # Stock data APIs
-yfinance==0.2.18
+yfinance>=1.3.0
 
 # Date handling
 python-dateutil==2.8.2
@@ -33,6 +33,7 @@ vaderSentiment==3.3.2
 
 # Additional data processing
 ntscraper==0.3.0
+gnews>=0.3.6
 
 # Upstox API integration
 upstox-python-sdk==2.17.0
@@ -44,6 +45,9 @@ notebook==7.0.2
 
 # Development and utilities
 typing-extensions>=4.12.0
+tqdm>=4.65.0
+python-dotenv>=1.0.0
+pyotp>=2.8.0
 
 # SmartAPI
 smartapi-python

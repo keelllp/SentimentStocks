@@ -18,7 +18,7 @@ const Header: React.FC = () => {
                 SentimentStocks
               </h1>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Powered by Optimized LightGBM
+                Powered by LightGBM + Live News Sentiment
               </p>
             </div>
           </div>

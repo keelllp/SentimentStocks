@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./models:/app/models                        # hot-swap models without rebuild
+      - backend_logs:/app/backend/logs              # persist logs across restarts
+      - backend_session:/app/backend/.angel_session.json  # survive restarts without re-TOTP
+      - backend_news_cache:/app/backend/news_cache  # survive restarts without refetching news
+    expose:
+      - "5000"                          # internal only; nginx proxies from outside
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      start_period: 20s
+      retries: 3
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_API_URL: /api         # nginx proxy mode
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  backend_logs:
+  backend_session:
+  backend_news_cache:

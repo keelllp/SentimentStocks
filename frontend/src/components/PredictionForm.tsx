@@ -58,7 +58,7 @@ const PredictionForm: React.FC = () => {
           ) : (
             <div className="flex items-center justify-center space-x-2">
               <Zap className="w-4 h-4" />
-              <span>Predict Tomorrow's Price</span>
+              <span>Predict 3-Day Price</span>
             </div>
           )}
         </button>

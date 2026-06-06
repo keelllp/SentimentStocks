@@ -2,12 +2,15 @@ import os
 from SmartApi import SmartConnect
 import pyotp
 from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # ==== Credentials ====
-API_KEY = "UsOGGTK1"
-CLIENT_CODE = "AABX480655"
-MPIN = "6969"
-TOTP_SECRET = "WBWETMN5YX4RM7WNWHADBJQU6U"
+API_KEY = os.getenv("API_KEY")
+CLIENT_CODE = os.getenv("CLIENT_CODE")
+MPIN = os.getenv("MPIN")
+TOTP_SECRET = os.getenv("TOTP_SECRET")
 
 # ==== Initialize SmartConnect ====
 obj = SmartConnect(API_KEY)

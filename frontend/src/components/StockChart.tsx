@@ -28,37 +28,29 @@ ChartJS.register(
 );
 
 const StockChart: React.FC = () => {
-  const { state } = useStock();
+  const { state, dispatch } = useStock();
   const [stockData, setStockData] = useState<StockData | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const loadStockData = async () => {
       if (!state.selectedStock) return;
-      
-      console.log(`📊 Loading stock data for: ${state.selectedStock}`);
+
       setLoading(true);
+      dispatch({ type: 'SET_LOADING', payload: true });
       try {
-        // Clear cache before fetching new data
-        try {
-          await fetch('http://localhost:5000/clear_cache', { method: 'POST' });
-          console.log('🗑️ Cache cleared');
-        } catch (e) {
-          console.log('⚠️ Could not clear cache:', e);
-        }
-        
         const data = await fetchStockData(state.selectedStock);
-        console.log(`📈 Received data for ${state.selectedStock}:`, data);
         setStockData(data);
       } catch (error) {
         console.error('Failed to load stock data:', error);
       } finally {
         setLoading(false);
+        dispatch({ type: 'SET_LOADING', payload: false });
       }
     };
 
     loadStockData();
-  }, [state.selectedStock]);
+  }, [state.selectedStock, dispatch]);
 
   if (loading) {
     return (

@@ -1,6 +1,7 @@
-# Exclude large data files
+# Exclude large data files (keep .gitkeep so the directory exists in git for Docker COPY)
 data/
-processed_data/
+processed_data/*
+!processed_data/.gitkeep
 venv/
 
 # Exclude large file types
@@ -73,9 +74,17 @@ desktop.ini
 .env.test.local
 .env.production.local
 
+# Angel One session cache (contains live JWT tokens — never commit)
+backend/.angel_session.json
+
+# Per-day news sentiment cache
+backend/news_cache/
+
 # Temporary files
 *.tmp
 *.temp
 *.bak
 *.backup
 *.old
+node_modules
+node_modules

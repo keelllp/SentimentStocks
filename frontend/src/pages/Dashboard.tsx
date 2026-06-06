@@ -5,6 +5,7 @@ import StockSelector from '../components/StockSelector';
 import PredictionForm from '../components/PredictionForm';
 import PredictionResult from '../components/PredictionResult';
 import StockChart from '../components/StockChart';
+import LoadingBar from '../components/LoadingBar';
 import { checkHealth } from '../services/api';
 
 const Dashboard: React.FC = () => {
@@ -18,9 +19,9 @@ const Dashboard: React.FC = () => {
         console.log('✅ API Health Check:', health);
       } catch (error) {
         console.error('❌ API Health Check Failed:', error);
-        dispatch({ 
-          type: 'SET_ERROR', 
-          payload: 'Backend API is not responding. Please ensure the Flask server is running.' 
+        dispatch({
+          type: 'SET_ERROR',
+          payload: 'Backend API is not responding. Please ensure the Flask server is running.'
         });
       }
     };
@@ -30,6 +31,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="space-y-8">
+      <LoadingBar />
       {/* Welcome Section */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -41,8 +43,8 @@ const Dashboard: React.FC = () => {
           Welcome to <span className="text-gradient">SentimentStocks</span>
         </h1>
         <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-          Leverage the power of our optimized LightGBM model to predict stock prices with 
-          exceptional accuracy. Get real-time predictions for tomorrow's market movements.
+          Leverage the power of our LightGBM ensemble and live news sentiment to predict
+          3-day stock price direction for NSE large-caps.
         </p>
       </motion.div>
 
@@ -71,40 +73,6 @@ const Dashboard: React.FC = () => {
         </motion.div>
       </div>
 
-      {/* Model Performance Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.6 }}
-        className="card bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 dark:from-blue-900/20 dark:to-indigo-900/20 dark:border-blue-800"
-      >
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-            Model Performance Metrics
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-100 dark:border-gray-700">
-              <div className="text-3xl font-bold text-primary-600 mb-2">12.65</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">RMSE</div>
-              <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">Lower is better</div>
-            </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-100 dark:border-gray-700">
-              <div className="text-3xl font-bold text-success-600 mb-2">0.9490</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">R² Score</div>
-              <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">Higher is better</div>
-            </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-100 dark:border-gray-700">
-              <div className="text-3xl font-bold text-warning-600 mb-2">11.18</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">MAE</div>
-              <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">Lower is better</div>
-            </div>
-          </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-4">
-            Our model has been trained on extensive historical data and optimized through 
-            10 iterations for maximum accuracy.
-          </p>
-        </div>
-      </motion.div>
 
       {/* Features Section */}
       <motion.div
@@ -143,9 +111,9 @@ const Dashboard: React.FC = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">High Accuracy</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Sentiment-Aware</h3>
           <p className="text-gray-600 dark:text-gray-400">
-            Powered by our optimized LightGBM model with 94.90% accuracy
+            Live news headlines scored daily and fused with technical features for richer predictions
           </p>
         </div>
       </motion.div>
