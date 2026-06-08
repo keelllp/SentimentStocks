@@ -421,25 +421,34 @@ def stock_data(symbol: str):
     symbol = symbol.upper()
     log.info(f'/stock_data {symbol}')
 
-    price = get_ltp(symbol)
-    if price is None:
-        fallback = _get_csv_series(symbol, days=200)
-        if fallback is None:
-            return jsonify({'error': 'Stock not found or no data available'}), 404
+    # Try real historical OHLC from Angel One (100 trading days)
+    raw_candles = get_historical_ohlc(symbol, interval='ONE_DAY', days=140)
+    if raw_candles:
+        points = [{'time': c[0], 'close': float(c[4])} for c in raw_candles]
+        candles = [{
+            't': c[0], 'o': float(c[1]), 'h': float(c[2]),
+            'l': float(c[3]), 'c': float(c[4]),
+            'v': float(c[5]) if len(c) > 5 else 0,
+        } for c in raw_candles]
+        current_price = float(raw_candles[-1][4])
         return jsonify({
             'stock_symbol': symbol,
-            'current_price': fallback['current_price'],
-            'series': fallback['series'],
-            'data': fallback['data'],
-            'candles': fallback['candles'],
-            'dates': [p['time'] for p in fallback['series']],
-            'prices': [p['close'] for p in fallback['series']],
-            'volumes': [c.get('v', 0) for c in fallback['candles']],
-            'timestamp': fallback['timestamp'],
-            'data_source': 'CSV Data (yfinance)',
+            'current_price': current_price,
+            'series': points,
+            'data': [{'timestamp': p['time'], 'price': p['close']} for p in points],
+            'candles': candles,
+            'dates': [p['time'] for p in points],
+            'prices': [p['close'] for p in points],
+            'volumes': [float(c[5]) if len(c) > 5 else 0 for c in raw_candles],
+            'timestamp': datetime.now().isoformat(),
+            'data_source': 'Angel One SmartAPI',
         })
 
-    # Live: synthetic intraday series around current LTP
+    # Fall back to LTP with synthetic series if historical unavailable
+    price = get_ltp(symbol)
+    if price is None:
+        return jsonify({'error': 'Stock not found or no data available'}), 404
+
     now = datetime.now()
     points = []
     for i in range(30, -1, -1):
@@ -464,7 +473,7 @@ def stock_data(symbol: str):
         'prices': [p['close'] for p in points],
         'volumes': [0] * len(points),
         'timestamp': now.isoformat(),
-        'data_source': 'Angel One SmartAPI',
+        'data_source': 'Angel One SmartAPI (live)',
     })
 
 
